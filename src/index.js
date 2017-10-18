@@ -3,6 +3,7 @@ import "index.html"
 import * as cns from "canvas"
 import * as Vector from "models/Vector"
 import * as h from "helpers"
+import * as Direction from "models/Direction"
 
 
 const [ canvas, ctx ] = cns.createCanvas()
@@ -17,17 +18,9 @@ const createPoint = str =>
         .map(h.trace("Vector of"))
 
 
-// move :: Num a => Vector a -> Vector a -> Context
-const move = d => p =>
-    cns.renderScene(ctx)(p.concat(d))
+const render = cns.renderScene(ctx)
 
 // point :: Num a => Vector a
 const point = createPoint("1 1")
 
-cns.renderScene(ctx)(point)
-
-setTimeout(move(Vector.of(-1, -1)), 1000, point)
-
-setTimeout(move(Vector.of(-2, -2)), 2000, point)
-
-setTimeout(move(Vector.of(-3, -3)), 3000, point)
+render(Direction.Neutral.concat(point).d)
