@@ -27,11 +27,11 @@ export function createCanvas() {
 }
 
 
-// renderScene :: Num a => Context -> Vector a -> Context
+// renderScene :: Num a => Context -> [ Vector a ] -> Context
 export function renderScene(ctx) {
-    return function(point) {
+    return function(points) {
         renderBackground(ctx)
-        renderPoint(ctx, point)
+        points.forEach(point => renderPoint(ctx, point))
         return ctx
     }
 }

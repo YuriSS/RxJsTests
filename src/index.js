@@ -4,23 +4,45 @@ import * as cns from "canvas"
 import * as Vector from "models/Vector"
 import * as h from "helpers"
 import * as Direction from "models/Direction"
+import { Observable, BehaviorSubject } from "rxjs"
 
 
 const [ canvas, ctx ] = cns.createCanvas()
 document.getElementById("app").append(canvas)
 
 
-// createPoint :: String a => a -> Vector a
-const createPoint = str =>
-    Vector.of.apply(null, str.split(" "))
-        .map(([x, y]) => [ Number(x), Number(y) ])
-        .concat(Vector.of(2, 2))
-        .map(h.trace("Vector of"))
-
-
 const render = cns.renderScene(ctx)
 
-// point :: Num a => Vector a
-const point = createPoint("1 1")
+// randomBehavior :: _ -> Num
+const randomBehavior = _ => h.execTwice(h.rand) (0, 30)
 
-render(Direction.Neutral.concat(point).d)
+
+// randomPoint$ :: Num a => Observable (Vector a)
+const randomPoint$ = new BehaviorSubject(randomBehavior())
+    .map(([ x, y ]) => Vector.of(x, y))
+
+
+// player$
+const player$ = Observable.interval(1000 / 60)
+    .withLatestFrom(randomPoint$)
+    .map(h.scd)
+    .scan
+        ( (point, enemy) =>
+            Direction.of(point.concat(enemy))
+                .move(point)
+        , Vector.origin
+        )
+
+
+const scene$ = player$
+    .combineLatest(randomPoint$)
+
+
+// nextRandomPoint$ :: Num a => Folded (Observable (Vector a))
+const nextRandomPoint$ = Observable.interval(1000)
+    .mapTo(randomBehavior)
+    .do(f => randomPoint$.next(f()))
+    .subscribe()
+
+
+scene$.subscribe(render)

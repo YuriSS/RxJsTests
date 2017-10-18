@@ -23,5 +23,21 @@ export const compose = fs => x =>
 export const identity = x => x
 
 
+// fst :: [a] -> a
+export const fst = xs => xs[0]
+
+
 // scd :: [a] -> a
 export const scd = xs => xs[1]
+
+
+// rand :: Num a => (a, a) -> a
+export const rand = (min, max) =>
+    Math.floor(Math.random() * max) + min
+
+
+// execTwice :: (...a -> b) -> ...a -> [b, b]
+export const execTwice = f => (...args) =>
+    Array(2)
+        .fill()
+        .map(_ => f.apply(null, args))
