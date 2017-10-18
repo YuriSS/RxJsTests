@@ -37,5 +37,10 @@ module.exports = {
         query: { presets: ["es2015"] }
       }
     ]
+  },
+
+  resolve: {
+    modules: ['node_modules', 'src'],
+    extensions: ['.js', '.jsx'],
   }
 };

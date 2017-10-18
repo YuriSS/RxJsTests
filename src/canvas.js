@@ -1,4 +1,6 @@
 
+import * as Vector from "models/Vector"
+
 // COLS :: Num
 const COLS = 50
 
@@ -25,10 +27,11 @@ export function createCanvas() {
 }
 
 
-// renderScene :: Context -> ? -> Context
+// renderScene :: Num a => Context -> Vector a -> Context
 export function renderScene(ctx) {
-    return function(_) {
+    return function(point) {
         renderBackground(ctx)
+        renderPoint(ctx, point)
         return ctx
     }
 }
@@ -38,5 +41,15 @@ export function renderScene(ctx) {
 function renderBackground(ctx, color = "#EEE") {
     ctx.fillStyle = color
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
+    return ctx
+}
+
+
+// renderPoint :: (Context, Vector a, String) -> Context
+function renderPoint(ctx, point = Vector.origin, color = "#333") {
+    const x = point.x * SCALE
+    const y = point.y * SCALE
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, SCALE, SCALE)
     return ctx
 }
