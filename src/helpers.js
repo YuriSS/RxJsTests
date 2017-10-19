@@ -41,3 +41,8 @@ export const execTwice = f => (...args) =>
     Array(2)
         .fill()
         .map(_ => f.apply(null, args))
+
+
+// all :: [(a -> Bool)] -> a -> Bool
+export const all = fs => x =>
+  fs.reduce((res, f) => res && f(x), true)

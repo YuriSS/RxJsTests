@@ -81,7 +81,11 @@ const validateDown = distance => distance.y < 0
 
 // metas :: Num a => [[ (Vector a -> Bool), Direction b ]]
 const metas =
-    [ [ validateRight, Right ]
+    [ [ h.all([ validateUp, validateLeft ]), UpLeft ]
+    , [ h.all([ validateUp, validateRight ]), UpRight ]
+    , [ h.all([ validateDown, validateLeft ]), DownLeft ]
+    , [ h.all([ validateDown, validateRight ]), DownRight ]
+    , [ validateRight, Right ]
     , [ validateLeft, Left ]
     , [ validateUp, Up ]
     , [ validateDown, Down ]
