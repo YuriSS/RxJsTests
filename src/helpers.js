@@ -1,7 +1,7 @@
 
-// flip :: (a -> b -> c) -> b -> a -> c
-export const flip = f => x => y =>
-    f(y) (x)
+// flip :: (...a -> ...b -> c) -> ...b -> ...a -> c
+export const flip = f => (...xs) => (...ys) =>
+    f(...ys) (...xs)
 
 
 // trace :: String -> a -> a
