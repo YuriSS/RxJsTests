@@ -18,11 +18,6 @@ const DOWN_DIR = Vector.of(0, 1)
 const NEUTRAL_DIR = Vector.origin
 
 
-// move :: Num a => Vector a -> Vector a -> Vector a
-export const move = p => d =>
-    p.concat(d)
-
-
 // fold :: Num a => [([ String, Vector a ] -> c)] -> Direction b -> c
 export const fold = (...args) => ({ name, d, i }) =>
     args[i] && args[i]([ name, d ])
@@ -69,11 +64,11 @@ export const Neutral = Direction(9) ("Neutral", NEUTRAL_DIR, true)
 
 
 // validateRight :: Num a => Vector a -> Bool
-const validateRight = distance => distance.x > 0
+const validateRight = distance => distance.x < 0
 
 
 // validateLeft :: Num a => Vector a -> Bool
-const validateLeft = distance => distance.x < 0
+const validateLeft = distance => distance.x > 0
 
 
 // validateUp :: Num a => Vector a -> Bool

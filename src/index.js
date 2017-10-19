@@ -23,12 +23,12 @@ const randomPoint$ = new BehaviorSubject(randomBehavior())
 
 
 // player$
-const player$ = Observable.interval(1000 / 60)
+const player$ = Observable.interval(1000 / 20)
     .withLatestFrom(randomPoint$)
     .map(h.scd)
     .scan
         ( (point, enemy) =>
-            Direction.of(point.concat(enemy))
+            Direction.of(point.subtract(enemy))
                 .move(point)
         , Vector.origin
         )
@@ -36,6 +36,7 @@ const player$ = Observable.interval(1000 / 60)
 
 const scene$ = player$
     .combineLatest(randomPoint$)
+    //.map(h.trace("FALA"))
 
 
 // nextRandomPoint$ :: Num a => Folded (Observable (Vector a))
